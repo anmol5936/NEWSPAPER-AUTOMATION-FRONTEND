@@ -41,7 +41,7 @@ export default function CustomerBills() {
         <h2 className="text-xl font-semibold">Customer Bills</h2>
         <button
           onClick={handlePrint}
-          className="flex items-center px-4 py-2 text-sm text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+          className="flex items-center px-4 py-2 text-sm text-white  bg-custom-blue-gray hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-medium-blue transition-opacity duration-200 rounded-md"
         >
           <Printer className="w-4 h-4 mr-2" />
           Print Bills
