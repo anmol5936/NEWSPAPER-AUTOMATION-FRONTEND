@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Newspaper, DollarSign } from 'lucide-react';
 import DeliveryList from '../components/DeliveryList';
 import DelivererPayment from '../components/DelivererPayment';
+import DeliveryStatusUpdate from '../components/DeliveryStatusUpdate';
 import { useAuth } from '../hooks/useAuth';
 
 export function DelivererDashboard() {
@@ -60,6 +61,7 @@ export function DelivererDashboard() {
         <div className="bg-white shadow rounded-lg p-6">
           {activeTab === 'deliveries' && <DeliveryList />}
           {activeTab === 'payments' && <DelivererPayment />}
+          {activeTab === 'updatestatus' && <DeliveryStatusUpdate />}
         </div>
       </div>
     </div>

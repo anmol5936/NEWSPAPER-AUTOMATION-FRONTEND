@@ -63,47 +63,50 @@ export default function UserSubscriptions() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <Loader2 className="animate-spin" size={24} />
+        <Loader2 className="animate-spin text-[#6A89A7]" size={24} />
       </div>
     );
   }
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">Current Subscriptions</h2>
+    <div className="bg-[#BDDDFC] bg-opacity-20 p-6 rounded-xl">
+      <h2 className="text-2xl font-semibold mb-6 text-[#384959] flex items-center">
+        <span className="bg-[#6A89A7] w-1 h-8 rounded mr-3"></span>
+        Current Subscriptions
+      </h2>
       
       {error && (
-        <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-lg">
+        <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-100">
           {error}
         </div>
       )}
       
       {success && (
-        <div className="mb-4 p-4 bg-green-50 text-green-700 rounded-lg">
+        <div className="mb-4 p-4 bg-green-50 text-green-700 rounded-lg border border-green-100">
           {success}
         </div>
       )}
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-lg shadow-md bg-white">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-gray-50">
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <tr className="bg-[#6A89A7] bg-opacity-10">
+              <th className="px-6 py-3 text-left text-xs font-medium text-[#384959] uppercase tracking-wider">
                 Publication
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-[#384959] uppercase tracking-wider">
                 Price
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-[#384959] uppercase tracking-wider">
                 Select
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-[#BDDDFC] divide-opacity-50">
             {subscriptions.map((subscription) => (
-              <tr key={subscription.id}>
-                <td className="px-6 py-4 whitespace-nowrap">{subscription.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
+              <tr key={subscription.id} className="hover:bg-[#BDDDFC] hover:bg-opacity-5 transition-colors">
+                <td className="px-6 py-4 whitespace-nowrap text-[#384959]">{subscription.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-[#384959]">
                   ${subscription.price.toFixed(2)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -119,7 +122,7 @@ export default function UserSubscriptions() {
                         );
                       }
                     }}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-[#6A89A7] focus:ring-[#88BDF2] border-[#88BDF2] rounded transition-colors"
                   />
                 </td>
               </tr>
@@ -129,16 +132,16 @@ export default function UserSubscriptions() {
       </div>
 
       <div className="mt-6">
-        <p className="text-sm text-gray-500 mb-4">
+        <p className="text-sm text-[#384959] mb-4 bg-[#88BDF2] bg-opacity-10 p-3 rounded-lg">
           Note: Subscription changes will take effect after 7 days from the request date.
         </p>
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+          className="px-6 py-2.5 bg-[#6A89A7] text-white rounded-lg hover:bg-[#384959] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#6A89A7] focus:ring-offset-2 shadow-sm hover:shadow-md"
         >
           {loading ? (
-            <span className="flex items-center gap-2">
+            <span className="flex items-center justify-center gap-2">
               <Loader2 className="animate-spin" size={16} />
               Updating...
             </span>
