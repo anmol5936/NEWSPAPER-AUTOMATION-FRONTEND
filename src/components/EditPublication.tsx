@@ -55,10 +55,10 @@ export default function EditPublication() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">Edit Publication</h2>
+      <h2 className="text-xl font-semibold mb-4 text-custom-dark-blue">Edit Publication</h2>
       <div className="max-w-lg">
         <select
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mb-4"
+          className="block w-full rounded-md border-custom-blue-gray shadow-sm focus:border-custom-medium-blue focus:ring-custom-medium-blue sm:text-sm mb-4 bg-white"
           value={selectedPublication}
           onChange={(e) => handlePublicationSelect(e.target.value)}
         >
@@ -73,37 +73,37 @@ export default function EditPublication() {
         {selectedPublication && (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Name</label>
+              <label className="block text-sm font-medium text-custom-dark-blue">Name</label>
               <input
                 type="text"
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-custom-blue-gray shadow-sm focus:border-custom-medium-blue focus:ring-custom-medium-blue sm:text-sm"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Language</label>
+              <label className="block text-sm font-medium text-custom-dark-blue">Language</label>
               <input
                 type="text"
                 required
                 value={formData.language}
                 onChange={(e) => setFormData({ ...formData, language: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-custom-blue-gray shadow-sm focus:border-custom-medium-blue focus:ring-custom-medium-blue sm:text-sm"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Description</label>
+              <label className="block text-sm font-medium text-custom-dark-blue">Description</label>
               <textarea
                 required
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-custom-blue-gray shadow-sm focus:border-custom-medium-blue focus:ring-custom-medium-blue sm:text-sm"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Price</label>
+              <label className="block text-sm font-medium text-custom-dark-blue">Price</label>
               <input
                 type="number"
                 required
@@ -111,13 +111,13 @@ export default function EditPublication() {
                 step="0.01"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-custom-blue-gray shadow-sm focus:border-custom-medium-blue focus:ring-custom-medium-blue sm:text-sm"
               />
             </div>
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-custom-blue-gray hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-medium-blue transition-opacity duration-200"
               >
                 Update Publication
               </button>

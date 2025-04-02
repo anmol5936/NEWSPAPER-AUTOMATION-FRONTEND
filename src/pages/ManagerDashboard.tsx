@@ -24,20 +24,21 @@ export function ManagerDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
+    <div className="min-h-screen" style={{ backgroundColor: '#BDDDFC' }}>
+      <nav style={{ backgroundColor: '#384959' }} className="shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <Newspaper className="h-8 w-8 text-indigo-600" />
-                <span className="ml-2 text-xl font-semibold text-gray-900">Manager Dashboard</span>
+                <Newspaper className="h-8 w-8 text-white" />
+                <span className="ml-2 text-xl font-semibold text-white">Manager Dashboard</span>
               </div>
             </div>
             <div className="flex items-center">
               <button
                 onClick={logout}
-                className="ml-4 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                className="ml-4 px-4 py-2 text-sm text-white hover:opacity-80 rounded-md"
+                style={{ backgroundColor: '#6A89A7' }}
               >
                 Logout
               </button>
@@ -54,11 +55,14 @@ export function ManagerDashboard() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center px-4 py-2 rounded-md ${
+                className={`flex items-center px-4 py-2 rounded-md transition-colors duration-200 ${
                   activeTab === tab.id
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'text-white'
+                    : 'text-white hover:opacity-80'
                 }`}
+                style={{
+                  backgroundColor: activeTab === tab.id ? '#88BDF2' : '#6A89A7'
+                }}
               >
                 <Icon className="h-5 w-5 mr-2" />
                 {tab.label}
@@ -67,7 +71,7 @@ export function ManagerDashboard() {
           })}
         </div>
 
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="shadow rounded-lg p-6" style={{ backgroundColor: '#FFFFFF' }}>
           {activeTab === 'publications' && (
             <div className="space-y-8">
               <AddPublication />
@@ -89,3 +93,5 @@ export function ManagerDashboard() {
     </div>
   );
 }
+
+export default ManagerDashboard

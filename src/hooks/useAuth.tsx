@@ -1,10 +1,10 @@
-// useAuth.tsx
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import api, { LoginCredentials, LoginResponse } from '../services/api';
 
 interface AuthContextType {
   user: LoginResponse | null;
   login: (credentials: LoginCredentials) => Promise<void>;
+  register: (credentials: LoginCredentials & { role: 'manager' | 'deliverer' }) => Promise<void>;
   logout: () => void;
 }
 
@@ -21,6 +21,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('user', JSON.stringify(user));
     } else {
       localStorage.removeItem('user');
+      localStorage.removeItem('username'); // Clear additional items
+      localStorage.removeItem('role');
+      localStorage.removeItem('userId');
     }
   }, [user]);
 
@@ -29,12 +32,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(response);
   };
 
-  const logout = (): void => {
-    setUser(null);
+  const register = async (credentials: LoginCredentials & { role: 'manager' | 'deliverer' }): Promise<void> => {
+    const response = await api.register(credentials);
+    setUser(response);
   };
 
-  // Explicitly type the value prop
-  const providerValue: AuthContextType = { user, login, logout };
+  const logout = (): void => {
+    setUser(null); // This will trigger the useEffect to clear localStorage
+  };
+
+  const providerValue: AuthContextType = { user, login, register, logout };
 
   return (
     <AuthContext.Provider value={providerValue}>

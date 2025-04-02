@@ -69,6 +69,16 @@ const api = {
     return response.json();
   },
 
+  register: async (credentials: LoginCredentials & { role: 'manager' | 'deliverer' | 'user'}): Promise<LoginResponse> => {
+    const response = await fetch(`${API_BASE_URL}/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials),
+    });
+    if (!response.ok) throw new Error('Registration failed');
+    return response.json();
+  },
+
   // Publications
   addPublication: async (publication: Omit<Publication, 'id'>): Promise<Publication> => {
     const response = await fetch(`${API_BASE_URL}/publications`, {
