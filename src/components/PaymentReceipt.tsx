@@ -1,25 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import api, { Customer } from '../services/api';
-import { Printer } from 'lucide-react';
+import { Printer, Loader } from 'lucide-react';
+
+// Define expected response types
+interface PaymentReceiptData {
+  receiptNumber: string;
+  customerName: string;
+  amount: number;
+  chequeNumber: string;
+  date: string;
+}
+
+interface ApiResponse {
+  message: string;
+  customers?: Customer[];
+  receipt?: PaymentReceiptData;
+}
 
 export default function PaymentReceipt() {
   const [customers, setCustomers] = useState<Customer[]>([]);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     customerId: '',
     amount: '',
     chequeNumber: ''
   });
-  const [receipt, setReceipt] = useState<string | null>(null);
+  const [receipt, setReceipt] = useState<PaymentReceiptData | null>(null);
   const [status, setStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/customers`);
-        const data = await response.json();
-        setCustomers(data);
+        setLoading(true);
+        const response = await api.viewCustomers();
+        const customerData = Array.isArray(response) 
+          ? response 
+          : (response as ApiResponse).customers || [];
+        setCustomers(customerData);
       } catch (error) {
         console.error('Failed to fetch customers:', error);
+        setStatus({ type: 'error', message: 'Failed to load customers' });
+        setCustomers([]);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCustomers();
@@ -27,25 +50,40 @@ export default function PaymentReceipt() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.customerId || !formData.amount) return;
+    if (!formData.customerId || !formData.amount) {
+      setStatus({ type: 'error', message: 'Please fill in all required fields' });
+      return;
+    }
 
     try {
       const response = await api.recordPayment({
         customerId: formData.customerId,
         amount: Number(formData.amount),
         ...(formData.chequeNumber && { chequeNumber: formData.chequeNumber })
-      });
-      setReceipt(response.receipt);
+      }) as ApiResponse;
+      
+      setReceipt(response.receipt || null);
       setStatus({ type: 'success', message: 'Payment recorded successfully!' });
       setFormData({ customerId: '', amount: '', chequeNumber: '' });
-    } catch (error) {
-      setStatus({ type: 'error', message: 'Failed to record payment' });
+    } catch (error: any) {
+      setStatus({ 
+        type: 'error', 
+        message: error.message || 'Failed to record payment' 
+      });
     }
   };
 
   const handlePrint = () => {
     window.print();
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Loader className="h-8 w-8 animate-spin text-blue-500" />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -61,7 +99,7 @@ export default function PaymentReceipt() {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             >
               <option value="">Select a customer</option>
-              {customers.map((customer) => (
+              {customers.length > 0 && customers.map((customer) => (
                 <option key={customer.id} value={customer.id}>
                   {customer.name}
                 </option>
@@ -92,7 +130,7 @@ export default function PaymentReceipt() {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white  bg-custom-blue-gray hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-medium-blue transition-opacity duration-200"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-custom-blue-gray hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-medium-blue transition-opacity duration-200"
             >
               Record Payment
             </button>
@@ -120,10 +158,13 @@ export default function PaymentReceipt() {
                 Print Receipt
               </button>
             </div>
-            <div
-              className="prose prose-sm"
-              dangerouslySetInnerHTML={{ __html: receipt }}
-            />
+            <div className="prose prose-sm">
+              <p>Receipt Number: {receipt.receiptNumber}</p>
+              <p>Customer: {receipt.customerName}</p>
+              <p>Amount: ${receipt.amount}</p>
+              <p>Cheque Number: {receipt.chequeNumber}</p>
+              <p>Date: {new Date(receipt.date).toLocaleDateString()}</p>
+            </div>
           </div>
         )}
       </div>

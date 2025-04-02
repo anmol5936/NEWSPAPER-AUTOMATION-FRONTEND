@@ -15,9 +15,8 @@ export default function EditPublication() {
   useEffect(() => {
     const fetchPublications = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/publications`);
-        const data = await response.json();
-        setPublications(data);
+        const response = await api.getAllPublications();
+        setPublications(response.publications || []);
       } catch (error) {
         console.error('Failed to fetch publications:', error);
       }
@@ -32,7 +31,7 @@ export default function EditPublication() {
       setFormData({
         name: publication.name,
         language: publication.language,
-        description: publication.description,
+        description: publication.description || '',
         price: publication.price.toString()
       });
     }

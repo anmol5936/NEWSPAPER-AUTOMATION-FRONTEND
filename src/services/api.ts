@@ -93,6 +93,15 @@ const api = {
     
     return response.json();
   },
+  getAllPublications: async (): Promise<Publication[]> => {
+    const response = await fetch(`${API_BASE_URL}/publications`);
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch publications');
+    }
+    
+    return response.json();
+  },
 
   editPublication: async (id: string, publication: Partial<Publication>): Promise<Publication> => {
     const response = await fetch(`${API_BASE_URL}/publications/${id}`, {
@@ -107,6 +116,20 @@ const api = {
     
     return response.json();
   },
+
+    // Customers
+    viewCustomers: async (): Promise<Customer[]> => {
+      const response = await fetch(`${API_BASE_URL}/customers`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to retrieve customers');
+      }
+  
+      return response.json();
+    },
 
   // Customers
   addCustomer: async (customer: Omit<Customer, 'id'>): Promise<Customer> => {
@@ -183,7 +206,7 @@ const api = {
   },
 
   // Payments
-  recordPayment: async (payment: Payment): Promise<{ receipt: string }> => {
+  recordPayment: async (payment: Payment): Promise<ApiResponse> => {
     const response = await fetch(`${API_BASE_URL}/payments`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -191,14 +214,15 @@ const api = {
     });
     
     if (!response.ok) {
-      throw new Error('Failed to record payment');
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to record payment');
     }
     
     return response.json();
   },
 
   getDelivererPayments: async (): Promise<{ payments: DelivererPayment[] }> => {
-    const response = await fetch(`${API_BASE_URL}/deliverer-payments`);
+    const response = await fetch(`${API_BASE_URL}/payments/deliverer-payments`);
     
     if (!response.ok) {
       throw new Error('Failed to fetch deliverer payments');

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Newspaper, Users, FileText, DollarSign, TrendingUp, Calendar } from 'lucide-react';
+import { Newspaper, Users, FileText, DollarSign, TrendingUp, Calendar, BookOpen, UserSearch } from 'lucide-react';
 import AddPublication from '../components/AddPublication';
 import EditPublication from '../components/EditPublication';
+import ViewPublications from '../components/ViewPublications';
 import AddCustomer from '../components/AddCustomer';
 import EditCustomer from '../components/EditCustomer';
+import ViewCustomers from '../components/ViewCustomers';
 import DeliverySummary from '../components/DeliverySummary';
 import CustomerBills from '../components/CustomerBills';
-import WithholdSubscription from '../components/WithholdSubscription';
 import PaymentReceipt from '../components/PaymentReceipt';
+import WithholdSubscription from '../components/WithholdSubscription';
 import { useAuth } from '../hooks/useAuth';
 
 export function ManagerDashboard() {
@@ -16,7 +18,9 @@ export function ManagerDashboard() {
 
   const tabs = [
     { id: 'publications', label: 'Publications', icon: Newspaper },
+    { id: 'viewPublications', label: 'View Publications', icon: BookOpen },
     { id: 'customers', label: 'Customers', icon: Users },
+    { id: 'viewCustomers', label: 'View Customers', icon: UserSearch },
     { id: 'summary', label: 'Delivery Summary', icon: TrendingUp },
     { id: 'bills', label: 'Bills', icon: FileText },
     { id: 'payments', label: 'Payments', icon: DollarSign },
@@ -78,12 +82,14 @@ export function ManagerDashboard() {
               <EditPublication />
             </div>
           )}
+          {activeTab === 'viewPublications' && <ViewPublications />}
           {activeTab === 'customers' && (
             <div className="space-y-8">
               <AddCustomer />
               <EditCustomer />
             </div>
           )}
+          {activeTab === 'viewCustomers' && <ViewCustomers />}
           {activeTab === 'summary' && <DeliverySummary />}
           {activeTab === 'bills' && <CustomerBills />}
           {activeTab === 'payments' && <PaymentReceipt />}
@@ -94,4 +100,4 @@ export function ManagerDashboard() {
   );
 }
 
-export default ManagerDashboard
+export default ManagerDashboard;
