@@ -198,7 +198,7 @@ const api = {
   },
 
   getDelivererPayments: async (): Promise<{ payments: DelivererPayment[] }> => {
-    const response = await fetch(`${API_BASE_URL}/deliverer-payments`);
+    const response = await fetch(`${API_BASE_URL}/payments/deliverer-payments`);
     
     if (!response.ok) {
       throw new Error('Failed to fetch deliverer payments');
