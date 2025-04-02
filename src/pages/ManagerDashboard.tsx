@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Newspaper, Users, FileText, DollarSign, TrendingUp, Calendar } from 'lucide-react';
-import AddPublication from '../components/AddPublication';
+import AddPublication from '../components/AddPublication'; 
 import EditPublication from '../components/EditPublication';
 import AddCustomer from '../components/AddCustomer';
 import EditCustomer from '../components/EditCustomer';
